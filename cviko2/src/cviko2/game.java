@@ -1,7 +1,5 @@
 package cviko2;
 
-import java.util.Vector;
-
 public class game {
 	private int[][] gamefield;
 	
@@ -23,20 +21,66 @@ public class game {
         }
     }
 	
-	//udelat jinak
-	   private Vector<Integer> findZero() {
-	        Vector<Integer> pos = new Vector<>();
-	        for (int i = 0; i < 3; i++) {
-	            for (int j = 0; j < 3; j++) {
-	                if (this.gamefield[i][j] == 0) {
-	                    pos.add(i);
-	                    pos.add(j);
-	                }
+	public int[] lookZero() {
+	    for (int i = 0; i < 3; i++) {
+	        for (int j = 0; j < 3; j++) {
+	            if (this.gamefield[i][j] == 0) {
+	                return new int[]{i, j};
 	            }
 	        }
-	        return pos;
 	    }
+	    return null;
+	}
+	
+	public void move(int course) {
+		int[] zero_pos = this.lookZero();
+		int old_num;
+		if (course == 1) { //nahoru
+            if (zero_pos[0] == 0) {
+                System.out.println("Zero is already at the top");
+                return;
+            }
+            old_num = this.gamefield[zero_pos[0] - 1][zero_pos[1]];
+            this.gamefield[zero_pos[0]][zero_pos[1]] = old_num;
+            this.gamefield[zero_pos[0] - 1][zero_pos[1]] = 0;
+		}
+		else if (course == 2) { //dolu
+            if (zero_pos[0] == 2) {
+                System.out.println("Zero is already at the bottom");
+                return;
+            }
+            old_num = this.gamefield[zero_pos[0] + 1][zero_pos[1]];
+            this.gamefield[zero_pos[0]][zero_pos[1]] = old_num;
+            this.gamefield[zero_pos[0] +1][zero_pos[1]] = 0;
+		
+		}
+
+		else if (course == 3) { //doleva
+            if (zero_pos[1] == 0) {
+                System.out.println("Zero is already at the far left");
+                return;
+            }
+            old_num = this.gamefield[zero_pos[0]][zero_pos[1] - 1];
+            this.gamefield[zero_pos[0]][zero_pos[1]] = old_num;
+            this.gamefield[zero_pos[0]][zero_pos[1] - 1] = 0;
+		
+		}
+		
+		else if (course == 4) { //doprava
+            if (zero_pos[1] == 2) {
+                System.out.println("Zero is already at the far right");
+                return;
+            }
+            old_num = this.gamefield[zero_pos[0]][zero_pos[1] + 1];
+            this.gamefield[zero_pos[0]][zero_pos[1]] = old_num;
+            this.gamefield[zero_pos[0]][zero_pos[1] + 1] = 0;
+		
+		}
+		
+		else {
+            System.out.println("Unknown direction:" + course);
+		}
 	   
 	   
-	   
+	}
 }
